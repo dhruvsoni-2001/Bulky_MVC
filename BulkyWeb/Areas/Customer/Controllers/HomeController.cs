@@ -27,8 +27,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
-            ShoppingCart cart = new()
-            {
+            ShoppingCart cart = new() {
                 Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"),
                 Count = 1,
                 ProductId = productId
@@ -38,27 +37,26 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Details(ShoppingCart shoppingCart)
+        public IActionResult Details(ShoppingCart shoppingCart) 
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            shoppingCart.ApplicationUserId = userId;
+            shoppingCart.ApplicationUserId= userId;
 
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
-            u.ProductId == shoppingCart.ProductId);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u=>u.ApplicationUserId == userId &&
+            u.ProductId==shoppingCart.ProductId);
 
-            if (cartFromDb != null)
-            {
+            if (cartFromDb != null) {
                 //shopping cart exists
                 cartFromDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
             }
-            else
-            {
+            else {
                 //add cart record
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
             }
             TempData["success"] = "Cart updated successfully";
+
             _unitOfWork.Save();
 
 

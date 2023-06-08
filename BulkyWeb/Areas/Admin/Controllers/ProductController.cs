@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.Data;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)]
+   // [Authorize(Roles = SD.Role_Admin)]
+
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -23,7 +23,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
 
             return View(objProductList);
         }
@@ -107,16 +107,14 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
         }
 
-
         #region API CALLS
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll() 
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
-            return Json(new { data = objProductList });
+            return Json(new {data = objProductList});
         }
-
 
         [HttpDelete]
         public IActionResult Delete(int? id)
@@ -124,9 +122,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
             if (productToBeDeleted == null)
             {
-                return Json(new { success = false, message = "Error while deleting" });
+                return Json(new { success = false, message = "Error while deleting!" });
             }
-
             var oldImagePath =
                            Path.Combine(_webHostEnvironment.WebRootPath,
                            productToBeDeleted.ImageUrl.TrimStart('\\'));
@@ -141,7 +138,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             return Json(new { success = true, message = "Delete Successful" });
         }
-
         #endregion
     }
 }
