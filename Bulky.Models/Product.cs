@@ -50,5 +50,32 @@ namespace BulkyBook.Models
         public Category Category { get; set; }
         [ValidateNever]
         public string ImageUrl { get; set; }
+
+        //public City Citys { get; set; }
+
+        //public State States { get; set; }
     }
+
+    //public enum City
+    //{z
+    //    Ahmedabad,
+    //    Surat,
+    //    Mumbai,
+    //    Delhi,
+    //    Rajkot,
+    //    Surendranagar,
+    //    Vadodra,
+    //    Bhavnagar,
+    //    jungadh,
+    //    bhuj,
+    //    Jamnagar,
+    //    Nadiad
+    //}
+
+    //public enum State
+    //{
+    //    Maharashta,
+    //    Gujarat,
+    //    Delhi
+    //}
 }
